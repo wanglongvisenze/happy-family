@@ -1,0 +1,66 @@
+swagger: '2.0'
+info:
+  title: Happy Family
+  version: 1.0.0
+basePath: /store/v1
+schemes:
+  - http
+paths:
+  /products/{product_name}:
+    get:
+      operationId: getProduct
+      produces:
+        - application/json
+      parameters:
+        - name: product_name
+          in: path
+          required: true
+          description: product name
+          type: string
+      responses:
+        200:
+          description: returns product info
+          schema:
+            $ref: '#definitions/Product'
+  /orders:
+    post:
+      operationId: placeOrder
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Order'
+      responses:
+        200:
+          description: returns filled order
+          schema:
+            $ref: '#/definitions/Order'
+definitions:
+  Product:
+    type: object
+    properties:
+      name:
+        type: string
+      unitPrice:
+        type: number
+      quantity:
+        type: number
+  Order:
+    type: object
+    properties:
+      id:
+        type: string
+      products:
+        type: array
+        items:
+          $ref: '#/definitions/Product'
+      totalPrice:
+        type: number
+      timestamp:
+        type: string
+        format: date-time
